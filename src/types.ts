@@ -1,0 +1,1 @@
+export type TConverter = { value: string, price: number, label: string }

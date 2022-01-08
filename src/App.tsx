@@ -1,24 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import InstanceCurrency from './components/InstanceCurrency/InstanceCurrency';
+import ResultCurrency from './components/ResultPrice/ResultCurrency';
+import { useAppDispatch, useAppSelector } from './store/hooks/redux';
+import { setPrevValue } from './store/reducers/CurrenciesReducer';
+import { topCurrencies } from './store/thunks/thunks';
 
 function App() {
+  let dispatch = useAppDispatch()
+  let { currency } = useAppSelector(state => state.cur)
+  React.useEffect(() => {
+    dispatch(topCurrencies())
+  }, [])
+
+  setInterval(() => {
+    dispatch(setPrevValue(currency))
+    dispatch(topCurrencies())
+  }, 60000)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1 className="title">Currency converter</h1>
+      <div className="wrapper">
+        <div className="instance"><InstanceCurrency /></div>
+        <div className="result"><ResultCurrency /></div>
+      </div>
     </div>
   );
 }
