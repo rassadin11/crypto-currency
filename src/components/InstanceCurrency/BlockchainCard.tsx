@@ -1,9 +1,10 @@
 import React from "react"
 import { useAppDispatch, useAppSelector } from "../../store/hooks/redux";
-import { setCurrency, setPrevValue } from "../../store/reducers/CurrenciesReducer";
 import { animateScroll as scroll } from "react-scroll";
 import { ICard } from "../../store/models/ICard";
 import PersonalCard from './PersonalCard'
+import { setCurrency } from '../../store/reducers/ConverterReducer'
+import { store } from "../../store/store";
 
 interface Props {
     currency: ICard[] | []
@@ -27,7 +28,7 @@ const BlockchainCard = ({ currency }: Props) => {
     }
 
     const handleClick = (name: string) => {
-        dispatch(setCurrency({ label: name, value: name }))
+        dispatch(setCurrency({ label: name, value: name, currency: store.getState().cur.currency }))
         scroll.scrollTo(0)
     }
 

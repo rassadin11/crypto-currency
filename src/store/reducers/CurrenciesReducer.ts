@@ -7,11 +7,9 @@ interface CurrencyState {
     currency: ICard[] | [],
     prevCurrency: ICard[] | [],
     converter: TConverter[] | [],
-    activeCurrency: TConverter | null,
     isLoading: boolean,
     error: null | string,
-    count: number,
-    dollarToCoin: number
+    count: number
 }
 
 interface PayloadAction<T> {
@@ -23,34 +21,32 @@ const initialState: CurrencyState = {
     currency: [],
     prevCurrency: [],
     converter: [],
-    activeCurrency: null,
     isLoading: false,
     error: null,
     count: 1,
-    dollarToCoin: 1
 }
 
 export const currenciesReducer = createSlice({
     name: 'currency',
     initialState,
     reducers: {
-        initializeCurrency(state) {
-            state.dollarToCoin = state.activeCurrency!.price || 1
-        },
-        setCurrency(state, action) {
-            let price;
+        // initializeCurrency(state) {
+        //     state.dollarToCoin = state.activeCurrency!.price || 1
+        // },
+        // setCurrency(state, action) {
+        //     let price;
 
-            state.currency.forEach(cur => {
-                if (cur.name === action.payload.value) {
-                    price = cur.price
-                    return cur.price
-                }
-            })
+        //     state.currency.forEach(cur => {
+        //         if (cur.name === action.payload.value) {
+        //             price = cur.price
+        //             return cur.price
+        //         }
+        //     })
 
-            state.dollarToCoin = price || 1
+        //     state.dollarToCoin = price || 1
 
-            state.activeCurrency = { ...action.payload, price }
-        },
+        //     state.activeCurrency = { ...action.payload, price }
+        // },
         setPrevValue(state) {
             state.prevCurrency = state.currency
         }
@@ -69,8 +65,6 @@ export const currenciesReducer = createSlice({
             state.converter = action.payload.map((coin: ICard): TConverter => ({
                 value: coin.name, price: coin.price, label: coin.name
             }))
-
-            state.activeCurrency = state.converter[0]
         },
         [topCurrencies.rejected.type]: (state, action: PayloadAction<string>) => {
             state.isLoading = false;
@@ -79,6 +73,6 @@ export const currenciesReducer = createSlice({
     }
 })
 
-export const { setCurrency, initializeCurrency, setPrevValue } = currenciesReducer.actions
+export const { setPrevValue } = currenciesReducer.actions
 
 export default currenciesReducer.reducer

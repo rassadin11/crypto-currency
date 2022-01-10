@@ -2,9 +2,11 @@ import React from "react"
 import s from './ResultCurrency.module.scss'
 import ReactSelect, { ISelectOption } from "./ReactSelect";
 import { useAppDispatch, useAppSelector } from "../../store/hooks/redux";
-import { initializeCurrency, setCurrency } from "../../store/reducers/CurrenciesReducer";
+import { initializeCurrency } from "../../store/reducers/ConverterReducer";
+import { setCurrency } from "../../store/reducers/ConverterReducer";
 import { TConverter } from "../../types";
-import { ValidateSelect } from './ValidateSelect'
+import { cryptoPrice, moneyPrice } from './ValidateInput';
+import { store } from "../../store/store";
 
 interface Props {
 
@@ -12,11 +14,13 @@ interface Props {
 
 const ResultCurrency: React.FC = (props: Props) => {
     const dispatch = useAppDispatch()
-    const { converter, activeCurrency, dollarToCoin } = useAppSelector(state => state.cur)
+    const { converter } = useAppSelector(state => state.cur)
+    const { activeCurrency, dollarToCoin } = useAppSelector(state => state.converter)
     const currencies: TConverter[] | [] = converter
+    const [selectedOption, setSelectedOption] = React.useState<ISelectOption>({ value: "USD", label: "USD" })
     let [outcomeValue, setOutcomeValue] = React.useState<string>(String(dollarToCoin))
     let [instanceValue, setInstanceValue] = React.useState<string>("0")
-    const [selectedOption, setSelectedOption] = React.useState<ISelectOption>({ value: "USD", label: "USD" })
+
     const options = [
         { value: 'USD', label: "USD" }
     ]
@@ -34,37 +38,7 @@ const ResultCurrency: React.FC = (props: Props) => {
     }
 
     const changeCurrency = (value: ISelectOption) => {
-        dispatch(setCurrency(value))
-    }
-
-    const cryptoPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let validate = ValidateSelect(instanceValue, e.target.value)
-
-        if (typeof validate === 'string') {
-            setInstanceValue(validate)
-        } else if (typeof validate === 'boolean') {
-            let price = +e.target.value
-
-            setInstanceValue(String(price))
-            setOutcomeValue((price * dollarToCoin).toFixed(2))
-        } else {
-            return
-        }
-    }
-
-    const moneyPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let validate = ValidateSelect(outcomeValue, e.target.value)
-
-        if (typeof validate === 'string') {
-            setOutcomeValue(validate)
-        } else if (typeof validate === 'boolean') {
-            let price = +e.target.value
-
-            setOutcomeValue(String(price))
-            setInstanceValue((price / dollarToCoin).toFixed(2))
-        } else {
-            return
-        }
+        dispatch(setCurrency({ ...value, currency: store.getState().cur.currency }))
     }
 
     return (
@@ -73,7 +47,7 @@ const ResultCurrency: React.FC = (props: Props) => {
             {activeCurrency !== null && (
                 <>
                     <div className={s.flex}>
-                        <input type="text" placeholder="Price" className={s.input} value={instanceValue} onChange={(e) => cryptoPrice(e)} />
+                        <input type="text" placeholder="Price" className={s.input} value={instanceValue} onChange={(e) => cryptoPrice(e, setOutcomeValue, setInstanceValue, dollarToCoin, instanceValue)} />
                         <ReactSelect
                             placeholder={"Выберите валюту"}
                             options={currencies}
@@ -82,7 +56,7 @@ const ResultCurrency: React.FC = (props: Props) => {
                         />
                     </div>
                     <div className={s.flex}>
-                        <input type="text" placeholder="Result" className={s.input} value={outcomeValue} onChange={(e) => moneyPrice(e)} />
+                        <input type="text" placeholder="Result" className={s.input} value={outcomeValue} onChange={(e) => moneyPrice(e, setOutcomeValue, setInstanceValue, dollarToCoin, outcomeValue)} />
                         <ReactSelect
                             placeholder={"Выберите валюту"}
                             options={options}

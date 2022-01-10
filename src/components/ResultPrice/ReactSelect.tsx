@@ -22,7 +22,7 @@ const customStyles = {
     })
 }
 
-const ReactSelect = React.memo(({ options, value, onChange, placeholder }: Props) => {
+const ReactSelect = ({ options, value, onChange, placeholder }: Props) => {
     return (
         <div>
             <Select
@@ -34,6 +34,6 @@ const ReactSelect = React.memo(({ options, value, onChange, placeholder }: Props
             />
         </div>
     )
-});
+};
 
 export default ReactSelect;

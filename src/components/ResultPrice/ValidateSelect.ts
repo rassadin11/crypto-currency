@@ -1,7 +1,8 @@
 export function ValidateSelect(instanceValue: string, e: string): string | boolean | void {
-    let regexLetters = /[a-zA-Z]/g
+    let regexLetters = /[^0-9.,]/g
     let regexDots = /[.,]/g
 
+    if (e === '') e = '0'
     if (regexLetters.test((e[e.length - 1]))) return
 
     if (e.match(regexDots) !== null) {
