@@ -39,3 +39,35 @@ body {
   margin: 0;
   padding: 0
 }
+
+.red {
+  animation-name: redToGreen;
+  animation-duration: 3s;
+  animation-iteration-count: 1;
+}
+
+.green {
+  animation-name: greenToRed;
+  animation-duration: 3s;
+  animation-iteration-count: 1;
+}
+
+@keyframes redToGreen {
+  0% {
+    color: #ff6f6f
+  }
+
+  100% {
+    color: inherit
+  }
+}
+
+@keyframes greenToRed {
+  0% {
+    color: #54f77d
+  }
+
+  100% {
+    color: inherit
+  }
+}

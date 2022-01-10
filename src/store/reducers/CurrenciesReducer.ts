@@ -51,8 +51,8 @@ export const currenciesReducer = createSlice({
 
             state.activeCurrency = { ...action.payload, price }
         },
-        setPrevValue(state, action) {
-            state.prevCurrency = action.payload
+        setPrevValue(state) {
+            state.prevCurrency = state.currency
         }
     },
     extraReducers: {
@@ -61,6 +61,9 @@ export const currenciesReducer = createSlice({
         },
         [topCurrencies.fulfilled.type]: (state, action: PayloadAction<ICard[]>) => {
             state.isLoading = false;
+
+            if (state.currency === state.prevCurrency) return;
+
             state.currency = action.payload
 
             state.converter = action.payload.map((coin: ICard): TConverter => ({

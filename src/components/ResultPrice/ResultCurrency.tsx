@@ -14,28 +14,20 @@ const ResultCurrency: React.FC = (props: Props) => {
     const dispatch = useAppDispatch()
     const { converter, activeCurrency, dollarToCoin } = useAppSelector(state => state.cur)
     const currencies: TConverter[] | [] = converter
-
-    const options = [
-        { value: 'USD', label: "USD" },
-        { value: 'RUB', label: "RUB" },
-    ]
-
     let [outcomeValue, setOutcomeValue] = React.useState<string>(String(dollarToCoin))
     let [instanceValue, setInstanceValue] = React.useState<string>("0")
-
     const [selectedOption, setSelectedOption] = React.useState<ISelectOption>({ value: "USD", label: "USD" })
+    const options = [
+        { value: 'USD', label: "USD" }
+    ]
 
-    const getActiveCurrency = (): ISelectOption | null => {
+    React.useEffect(() => {
         if (activeCurrency !== null) {
-            return {
-                value: activeCurrency.value,
-                label: activeCurrency.label,
-                price: activeCurrency.price
-            }
+            setOutcomeValue(String(activeCurrency.price))
+            setInstanceValue("1")
+            dispatch(initializeCurrency())
         }
-
-        return null
-    }
+    }, [activeCurrency])
 
     const handleChange = (selectedOption: ISelectOption) => {
         setSelectedOption(selectedOption)
@@ -74,14 +66,6 @@ const ResultCurrency: React.FC = (props: Props) => {
             return
         }
     }
-
-    React.useEffect(() => {
-        if (activeCurrency !== null) {
-            setOutcomeValue(String(activeCurrency.price))
-            setInstanceValue("1")
-            dispatch(initializeCurrency())
-        }
-    }, [activeCurrency])
 
     return (
         <div>

@@ -8,19 +8,19 @@ import { topCurrencies } from './store/thunks/thunks';
 
 function App() {
   let dispatch = useAppDispatch()
-  let { currency } = useAppSelector(state => state.cur)
+
   React.useEffect(() => {
     dispatch(topCurrencies())
   }, [])
 
   setInterval(() => {
-    dispatch(setPrevValue(currency))
+    dispatch(setPrevValue())
     dispatch(topCurrencies())
   }, 60000)
 
   return (
     <div className="App">
-      <h1 className="title">Currency converter</h1>
+      <h1 className="title">Crypto converter</h1>
       <div className="wrapper">
         <div className="instance"><InstanceCurrency /></div>
         <div className="result"><ResultCurrency /></div>

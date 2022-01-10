@@ -8,8 +8,7 @@ interface Props {
 }
 
 const InstanceCurrency = (props: Props) => {
-    const { count, currency } = useAppSelector(state => state.cur)
-    const dispatch = useAppDispatch()
+    const { currency } = useAppSelector(state => state.cur)
 
     if (!currency.length) return <div className={s.title}>Loading...</div>
 
@@ -18,7 +17,7 @@ const InstanceCurrency = (props: Props) => {
             <p className={s.title}>Top daily currencies</p>
 
             <div className={s.cards}>
-                <BlockchainCard />
+                <BlockchainCard currency={currency} />
             </div>
         </div>
     )
