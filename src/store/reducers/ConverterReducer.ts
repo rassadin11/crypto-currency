@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { TConverter } from '../../types'
 import { ICard } from '../models/ICard'
-import { store } from '../store'
 import { topCurrencies } from '../thunks/thunks'
 
 interface CurrencyState {

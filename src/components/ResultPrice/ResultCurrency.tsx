@@ -31,7 +31,7 @@ const ResultCurrency: React.FC = (props: Props) => {
             setInstanceValue("1")
             dispatch(initializeCurrency())
         }
-    }, [activeCurrency])
+    }, [activeCurrency, dispatch])
 
     const handleChange = (selectedOption: ISelectOption) => {
         setSelectedOption(selectedOption)

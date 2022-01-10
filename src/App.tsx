@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import InstanceCurrency from './components/InstanceCurrency/InstanceCurrency';
 import ResultCurrency from './components/ResultPrice/ResultCurrency';
-import { useAppDispatch, useAppSelector } from './store/hooks/redux';
+import { useAppDispatch } from './store/hooks/redux';
 import { setPrevValue } from './store/reducers/CurrenciesReducer';
 import { topCurrencies } from './store/thunks/thunks';
 
@@ -11,7 +11,7 @@ function App() {
 
   React.useEffect(() => {
     dispatch(topCurrencies())
-  }, [])
+  }, [dispatch])
 
   setInterval(() => {
     dispatch(setPrevValue())

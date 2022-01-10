@@ -1,7 +1,7 @@
 import React from "react"
 import s from './InstanceCurrency.module.scss'
 import BlockchainCard from './BlockchainCard'
-import { useAppDispatch, useAppSelector } from '../../store/hooks/redux'
+import { useAppSelector } from '../../store/hooks/redux'
 
 interface Props {
 

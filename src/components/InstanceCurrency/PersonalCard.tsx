@@ -1,7 +1,6 @@
 import React from "react"
 import s from "./InstanceCurrency.module.scss"
 import { ICard } from '../../store/models/ICard'
-import { TCoinDiff } from "./BlockchainCard";
 
 interface Props {
     cur: ICard,
@@ -22,7 +21,7 @@ const PersonalCard = ({ cur, handleClick, roundPrices, prevValue }: Props) => {
         setTimeout(() => {
             setAddClass('')
         }, 5000)
-    }, [cur])
+    }, [cur, prevValue])
 
     return (
         <div key={cur.id} className={s.card} onClick={() => handleClick(cur.name)}>
